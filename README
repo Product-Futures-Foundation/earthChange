@@ -1,0 +1,32 @@
+Based on https://blog.zeppelinos.org/getting-started-with-zepkit
+
+$ sudo npm install -g truffle@5.0.2 ganache-cli@6.3.0 zos@2.1.2
+
+  Workaround for "fatal: could not create leading directories"
+    $ sudo -s
+    $$ npm install -g --unsafe-perm zos
+
+Install dependencies
+$ npm install
+
+Start local blockchain
+$ ganache-cli --secure -u 0 -u 1 -u 2 --deterministic
+  Outputs 10 'accounts' and 10 'Private Keys'
+  We will use Account #1 (0xffcf8fdee72ac11b5c542428b35eef5769c409f0)
+
+IN ANOTHER TERMINAL:
+Open session to connect
+$ zos session --network development --from 0xffcf8fdee72ac11b5c542428b35eef5769c409f0 --expires 3600
+
+Compile contracts
+$ zos push --deploy-dependencies
+
+Deploy
+$ zos create Counter --init initialize --args 2 #deploy (create instance on chain)
+
+Start react server
+$ cd client
+$ npm run start
+  Browser will open  localhost:3000
+  Point MetaMask to  localhost:8545
+  Visit localhost:3000/counter
